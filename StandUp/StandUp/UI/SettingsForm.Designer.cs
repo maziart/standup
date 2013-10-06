@@ -46,12 +46,15 @@
             this.txtFilePath = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnBrowse = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtFadeInSeconds = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 42);
+            this.label1.Location = new System.Drawing.Point(10, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 13);
             this.label1.TabIndex = 1;
@@ -67,7 +70,7 @@
             // 
             // btnSaveDuration
             // 
-            this.btnSaveDuration.Location = new System.Drawing.Point(357, 236);
+            this.btnSaveDuration.Location = new System.Drawing.Point(514, 266);
             this.btnSaveDuration.Name = "btnSaveDuration";
             this.btnSaveDuration.Size = new System.Drawing.Size(75, 23);
             this.btnSaveDuration.TabIndex = 9;
@@ -78,7 +81,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(438, 236);
+            this.btnCancel.Location = new System.Drawing.Point(595, 266);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 10;
@@ -89,7 +92,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 120);
+            this.label2.Location = new System.Drawing.Point(10, 146);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 1;
@@ -98,15 +101,15 @@
             // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(176, 117);
+            this.txtMessage.Location = new System.Drawing.Point(176, 143);
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(303, 20);
+            this.txtMessage.Size = new System.Drawing.Size(461, 20);
             this.txtMessage.TabIndex = 5;
             // 
             // chkEscapeMessage
             // 
             this.chkEscapeMessage.AutoSize = true;
-            this.chkEscapeMessage.Location = new System.Drawing.Point(176, 144);
+            this.chkEscapeMessage.Location = new System.Drawing.Point(176, 170);
             this.chkEscapeMessage.Name = "chkEscapeMessage";
             this.chkEscapeMessage.Size = new System.Drawing.Size(160, 17);
             this.chkEscapeMessage.TabIndex = 6;
@@ -119,7 +122,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 94);
+            this.label3.Location = new System.Drawing.Point(10, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 13);
             this.label3.TabIndex = 1;
@@ -130,7 +133,7 @@
             // 
             // txtRedColor
             // 
-            this.txtRedColor.Location = new System.Drawing.Point(176, 91);
+            this.txtRedColor.Location = new System.Drawing.Point(176, 117);
             this.txtRedColor.Name = "txtRedColor";
             this.txtRedColor.Size = new System.Drawing.Size(100, 20);
             this.txtRedColor.TabIndex = 4;
@@ -138,7 +141,7 @@
             // chkSnooze
             // 
             this.chkSnooze.AutoSize = true;
-            this.chkSnooze.Location = new System.Drawing.Point(176, 167);
+            this.chkSnooze.Location = new System.Drawing.Point(176, 193);
             this.chkSnooze.Name = "chkSnooze";
             this.chkSnooze.Size = new System.Drawing.Size(88, 17);
             this.chkSnooze.TabIndex = 7;
@@ -151,7 +154,7 @@
             // chkAllowPrepareNotification
             // 
             this.chkAllowPrepareNotification.AutoSize = true;
-            this.chkAllowPrepareNotification.Location = new System.Drawing.Point(176, 190);
+            this.chkAllowPrepareNotification.Location = new System.Drawing.Point(176, 216);
             this.chkAllowPrepareNotification.Name = "chkAllowPrepareNotification";
             this.chkAllowPrepareNotification.Size = new System.Drawing.Size(239, 17);
             this.chkAllowPrepareNotification.TabIndex = 8;
@@ -163,7 +166,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 68);
+            this.label4.Location = new System.Drawing.Point(10, 68);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(140, 13);
             this.label4.TabIndex = 1;
@@ -180,7 +183,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 15);
+            this.label5.Location = new System.Drawing.Point(10, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 1;
@@ -194,7 +197,7 @@
             this.txtFilePath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.txtFilePath.Location = new System.Drawing.Point(176, 12);
             this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.Size = new System.Drawing.Size(303, 20);
+            this.txtFilePath.Size = new System.Drawing.Size(461, 20);
             this.txtFilePath.TabIndex = 0;
             // 
             // toolTip1
@@ -208,7 +211,7 @@
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(485, 9);
+            this.btnBrowse.Location = new System.Drawing.Point(643, 10);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(28, 23);
             this.btnBrowse.TabIndex = 1;
@@ -216,13 +219,38 @@
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 94);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(167, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Message Fade In Time (seconds):";
+            // 
+            // txtFadeInSeconds
+            // 
+            this.txtFadeInSeconds.Location = new System.Drawing.Point(176, 91);
+            this.txtFadeInSeconds.Name = "txtFadeInSeconds";
+            this.txtFadeInSeconds.Size = new System.Drawing.Size(100, 20);
+            this.txtFadeInSeconds.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(282, 95);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(84, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "(0 = No Fade In)";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.btnSaveDuration;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(525, 271);
+            this.ClientSize = new System.Drawing.Size(682, 301);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.chkAllowPrepareNotification);
             this.Controls.Add(this.chkSnooze);
@@ -237,6 +265,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtStandUpSeconds);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtFadeInSeconds);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.txtDuration);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -269,5 +300,8 @@
         private System.Windows.Forms.TextBox txtFilePath;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtFadeInSeconds;
+        private System.Windows.Forms.Label label7;
     }
 }

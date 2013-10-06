@@ -17,6 +17,7 @@ namespace StandUp.Business
         public static bool AllowEscapingMessage { get; set; }
         public static bool AllowSnooze { get; set; }
         public static bool AllowPrepareNotification { get; set; }
+        public static int MessageFadeInSeconds { get; set; }
 
         public static string FilePath { get; set; }
 
@@ -43,6 +44,8 @@ namespace StandUp.Business
                 writer.WriteLine(AllowSnooze);
                 writer.Write("AllowPrepareNotification=");
                 writer.WriteLine(AllowPrepareNotification);
+                writer.Write("MessageFadeInSeconds=");
+                writer.WriteLine(MessageFadeInSeconds);
             }
         }
 
@@ -61,6 +64,7 @@ namespace StandUp.Business
                 AllowSnooze = true;
                 AllowPrepareNotification = true;
                 StandUpSeconds = 30;
+                MessageFadeInSeconds = 3;
             }
             else
             {
@@ -95,6 +99,7 @@ namespace StandUp.Business
             StandUpSeconds = dic.TryGetValue("StandUpSeconds", out value) ? int.Parse(value) : 30;
             AllowSnooze = dic.TryGetValue("AllowSnooze", out value) ? !value.Equals("false", StringComparison.InvariantCultureIgnoreCase) : true;
             AllowPrepareNotification = dic.TryGetValue("AllowPrepareNotification", out value) ? !value.Equals("false", StringComparison.InvariantCultureIgnoreCase) : true;
+            MessageFadeInSeconds = dic.TryGetValue("MessageFadeInSeconds", out value) ? int.Parse(value) : 3;
 
         }
 

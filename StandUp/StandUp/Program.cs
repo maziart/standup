@@ -21,7 +21,11 @@ namespace StandUp
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            using (new MainUI())
+            {
+                Application.Run();
+            }
         }
     }
 }

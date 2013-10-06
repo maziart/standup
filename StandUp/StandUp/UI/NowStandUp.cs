@@ -13,23 +13,43 @@ namespace StandUp.UI
     {
         private DateTime StartTime;
         private bool AllowSnooze;
+        private int TotalOpacitySteps;
+        private int CurrentOpacityStep;
 
         public NowStandUp(bool allowSnooze)
         {
             InitializeComponent();
 
-            AllowSnooze = allowSnooze;
             StartTime = DateTime.Now;
+
+            AllowSnooze = allowSnooze;
 
             var bounds = Screen.PrimaryScreen.Bounds;
             Size = new Size(bounds.Width, bounds.Height);
             Location = new Point(0, 0);
             lblMessage.Text = Settings.Message;
 
+
+            if (Settings.MessageFadeInSeconds == 0)
+            {
+                ShowRightAway();
+            }
+            else
+            {
+                Opacity = 0;
+                CurrentOpacityStep = 0;
+                TotalOpacitySteps = Settings.MessageFadeInSeconds * 10;
+                fadeInTimer.Start();
+            }
+        }
+
+        private void ShowRightAway()
+        {
+            StartTime = DateTime.Now;
             ShowTime();
+            standTimer.Start();
 
-            timer1.Start();
-
+            Opacity = 1;
             BringToFront();
             Activate();
         }
@@ -77,7 +97,7 @@ namespace StandUp.UI
                 lblTime.Text = "You can sit down";
                 BtnClose.Text = "I'm sitting down";
                 btnHideForm.Visible = false;
-                timer1.Stop();
+                standTimer.Stop();
             }
             else
             {
@@ -100,6 +120,20 @@ namespace StandUp.UI
         private void pnlFooter_MouseEnter(object sender, EventArgs e)
         {
             pnlButtons.Visible = true;
+        }
+
+        private void fadeInTimer_Tick(object sender, EventArgs e)
+        {
+            CurrentOpacityStep++;
+            if (CurrentOpacityStep < TotalOpacitySteps)
+            {
+                Opacity = (float)CurrentOpacityStep / TotalOpacitySteps;
+            }
+            else
+            {
+                fadeInTimer.Stop();
+                ShowRightAway();
+            }
         }
     }
 }
