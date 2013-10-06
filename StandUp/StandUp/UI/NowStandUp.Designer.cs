@@ -33,11 +33,12 @@
             this.lblMessage = new System.Windows.Forms.Label();
             this.btnHideForm = new System.Windows.Forms.Button();
             this.lblTime = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.standTimer = new System.Windows.Forms.Timer(this.components);
             this.BtnClose = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlFooter = new System.Windows.Forms.Panel();
             this.pnlButtons = new System.Windows.Forms.Panel();
+            this.fadeInTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.pnlFooter.SuspendLayout();
             this.pnlButtons.SuspendLayout();
@@ -105,10 +106,10 @@
             this.lblTime.Text = "00:00";
             this.lblTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // timer1
+            // standTimer
             // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.standTimer.Interval = 1000;
+            this.standTimer.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // BtnClose
             // 
@@ -147,6 +148,10 @@
             this.pnlButtons.Visible = false;
             this.pnlButtons.MouseEnter += new System.EventHandler(this.pnlFooter_MouseEnter);
             // 
+            // fadeInTimer
+            // 
+            this.fadeInTimer.Tick += new System.EventHandler(this.fadeInTimer_Tick);
+            // 
             // NowStandUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,10 +182,11 @@
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Button btnHideForm;
         private System.Windows.Forms.Label lblTime;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer standTimer;
         private System.Windows.Forms.Button BtnClose;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Panel pnlFooter;
         private System.Windows.Forms.Panel pnlButtons;
+        private System.Windows.Forms.Timer fadeInTimer;
     }
 }

@@ -14,14 +14,13 @@ namespace StandUp.Business
         private TimeSpan RedThreshold;
         private Timer MainTimer;
         private Timer StandTimer;
-        private MainForm Form;
+        private MainUI UI;
         private bool Snoozing;
         private bool IsInRedMode;
 
-        public StandUpTimer(MainForm form)
+        public StandUpTimer(MainUI ui)
         {
-            Form = form;
-            Form.FormClosing += MainForm_FormClosing;
+            UI = ui;
 
             InitTimers();
 
@@ -136,20 +135,11 @@ namespace StandUp.Business
 
         public bool Exit(bool prompt = true)
         {
-            try
-            {
-                Form.FormClosing -= MainForm_FormClosing;
-
-                if (prompt && MessageBox.Show("Are you sure you want to exit stand-up application?", "Exit Stand Up?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
-                    return false;
-                Settings.Save();
-                Application.Exit();
-                return true;
-            }
-            finally
-            {
-                Form.FormClosing += MainForm_FormClosing;
-            }
+            if (prompt && MessageBox.Show("Are you sure you want to exit stand-up application?", "Exit Stand Up?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+                return false;
+            Settings.Save();
+            Application.Exit();
+            return true;
         }
 
 

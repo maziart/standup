@@ -23,6 +23,7 @@ namespace StandUp.UI
             chkAllowPrepareNotification.Checked = Settings.AllowPrepareNotification;
             txtStandUpSeconds.Text = Settings.StandUpSeconds.ToString();
             txtFilePath.Text = Settings.FilePath;
+            txtFadeInSeconds.Text = Settings.MessageFadeInSeconds.ToString();
         }
 
         private void CloseOK()
@@ -39,8 +40,11 @@ namespace StandUp.UI
 
         private void btnSaveDuration_Click(object sender, EventArgs e)
         {
-            int seconds, redSeconds, standUpSeconds;
-            if (!int.TryParse(txtDuration.Text, out seconds) || !int.TryParse(txtRedColor.Text, out redSeconds) || !int.TryParse(txtStandUpSeconds.Text, out standUpSeconds))
+            int seconds, redSeconds, standUpSeconds, fadeInSeconds;
+            if (!int.TryParse(txtDuration.Text, out seconds) 
+                || !int.TryParse(txtRedColor.Text, out redSeconds)
+                || !int.TryParse(txtFadeInSeconds.Text, out fadeInSeconds)
+                || !int.TryParse(txtStandUpSeconds.Text, out standUpSeconds))
             {
                 MessageBox.Show("Enter number of seconds");
                 return;
@@ -59,6 +63,7 @@ namespace StandUp.UI
             Settings.AllowPrepareNotification = chkAllowPrepareNotification.Checked;
             Settings.StandUpSeconds = standUpSeconds;
             Settings.FilePath = txtFilePath.Text;
+            Settings.MessageFadeInSeconds = fadeInSeconds;
 
             Settings.Save();
 
