@@ -73,7 +73,7 @@
             this.btnSaveDuration.Location = new System.Drawing.Point(514, 266);
             this.btnSaveDuration.Name = "btnSaveDuration";
             this.btnSaveDuration.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveDuration.TabIndex = 9;
+            this.btnSaveDuration.TabIndex = 10;
             this.btnSaveDuration.Text = "Save";
             this.btnSaveDuration.UseVisualStyleBackColor = true;
             this.btnSaveDuration.Click += new System.EventHandler(this.btnSaveDuration_Click);
@@ -84,7 +84,7 @@
             this.btnCancel.Location = new System.Drawing.Point(595, 266);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 10;
+            this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -104,7 +104,7 @@
             this.txtMessage.Location = new System.Drawing.Point(176, 143);
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.Size = new System.Drawing.Size(461, 20);
-            this.txtMessage.TabIndex = 5;
+            this.txtMessage.TabIndex = 6;
             // 
             // chkEscapeMessage
             // 
@@ -112,7 +112,7 @@
             this.chkEscapeMessage.Location = new System.Drawing.Point(176, 170);
             this.chkEscapeMessage.Name = "chkEscapeMessage";
             this.chkEscapeMessage.Size = new System.Drawing.Size(160, 17);
-            this.chkEscapeMessage.TabIndex = 6;
+            this.chkEscapeMessage.TabIndex = 7;
             this.chkEscapeMessage.Text = "Allow escaping the message";
             this.toolTip1.SetToolTip(this.chkEscapeMessage, "If checked, you can press Esc (escape on your keyboard) to close the message. Not" +
         "e that this will make the message get snoozed if \"Allow snooze\" is checked and t" +
@@ -136,7 +136,7 @@
             this.txtRedColor.Location = new System.Drawing.Point(176, 117);
             this.txtRedColor.Name = "txtRedColor";
             this.txtRedColor.Size = new System.Drawing.Size(100, 20);
-            this.txtRedColor.TabIndex = 4;
+            this.txtRedColor.TabIndex = 5;
             // 
             // chkSnooze
             // 
@@ -144,7 +144,7 @@
             this.chkSnooze.Location = new System.Drawing.Point(176, 193);
             this.chkSnooze.Name = "chkSnooze";
             this.chkSnooze.Size = new System.Drawing.Size(88, 17);
-            this.chkSnooze.TabIndex = 7;
+            this.chkSnooze.TabIndex = 8;
             this.chkSnooze.Text = "Allow snooze";
             this.toolTip1.SetToolTip(this.chkSnooze, "If checked, everytime you close the message, if the message form has not been sho" +
         "wn enough (as set in \"Standup duration\" box), the form will re-show in 1 minute." +
@@ -157,7 +157,7 @@
             this.chkAllowPrepareNotification.Location = new System.Drawing.Point(176, 216);
             this.chkAllowPrepareNotification.Name = "chkAllowPrepareNotification";
             this.chkAllowPrepareNotification.Size = new System.Drawing.Size(239, 17);
-            this.chkAllowPrepareNotification.TabIndex = 8;
+            this.chkAllowPrepareNotification.TabIndex = 9;
             this.chkAllowPrepareNotification.Text = "Allow showing notification when getting close";
             this.toolTip1.SetToolTip(this.chkAllowPrepareNotification, "Shows a notification for you to prepare for standing up when entered in the \"Red " +
         "Color\" time to stand up.");
@@ -233,7 +233,7 @@
             this.txtFadeInSeconds.Location = new System.Drawing.Point(176, 91);
             this.txtFadeInSeconds.Name = "txtFadeInSeconds";
             this.txtFadeInSeconds.Size = new System.Drawing.Size(100, 20);
-            this.txtFadeInSeconds.TabIndex = 2;
+            this.txtFadeInSeconds.TabIndex = 4;
             // 
             // label7
             // 
