@@ -14,13 +14,14 @@ namespace StandUp.Business
         private TimeSpan RedThreshold;
         private Timer MainTimer;
         private Timer StandTimer;
-        private MainUI UI;
-        private bool Snoozing;
-        private bool IsInRedMode;
+        private int StandingUpSeconds;
 
-        public StandUpTimer(MainUI ui)
+
+        public StateMachine StateMachine { get; private set; }
+
+        public StandUpTimer(StateMachine stateMachine)
         {
-            UI = ui;
+            StateMachine = stateMachine;
 
             InitTimers();
 
@@ -36,37 +37,21 @@ namespace StandUp.Business
         }
 
         public event EventHandler<TickEventArgs> Tick;
-        public event EventHandler<TickEventArgs> EnteredRedMode;
-        public event EventHandler CanSitDown;
 
         private void OnTick(TickEventArgs e)
         {
             if (Tick != null)
                 Tick(this, e);
         }
-        private void OnEnteredRedMode(TickEventArgs e)
-        {
-            if (EnteredRedMode != null)
-                EnteredRedMode(this, e);
-        }
-        private void OnCanSitDown(EventArgs e)
-        {
-            if (CanSitDown != null)
-                CanSitDown(this, e);
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!Exit(e.CloseReason == CloseReason.UserClosing))
-                e.Cancel = true;
-        }
 
         private void StandTimer_Tick(object sender, EventArgs e)
         {
             StandTimer.Stop();
-            OnCanSitDown(e);
-
-            Reset();
+            
+            if (StateMachine.State == State.StandingUp)
+            {
+                StateMachine.State = State.CanSitDown;
+            }
         }
 
         private void MainTimer_Tick(object sender, EventArgs e)
@@ -86,7 +71,7 @@ namespace StandUp.Business
             }
         }
 
-        public void ApplySettings(bool setLocation = true)
+        public void ApplySettings()
         {
             RedThreshold = new TimeSpan(0, 0, Settings.RedSeconds);
         }
@@ -95,80 +80,88 @@ namespace StandUp.Business
         public void ShowStandUpNow(bool allowSnooze)
         {
             MainTimer.Stop();
+
             using (var standUpNow = new NowStandUp(allowSnooze))
             {
                 standUpNow.ShowDialog();
                 if (standUpNow.Snooze)
                 {
-                    Snoozing = true;
-                    Reset(60);
-                    return;
+                    StateMachine.State = State.Snoozing;
                 }
                 else if (standUpNow.ShowDesktop && standUpNow.ShowDesktopSeconds > 0)
                 {
-                    StandTimer = new Timer();
-                    StandTimer.Interval = standUpNow.ShowDesktopSeconds * 1000;
-                    StandTimer.Tick += StandTimer_Tick;
-                    StandTimer.Start();
-                    return;
+                    StandingUpSeconds = standUpNow.ShowDesktopSeconds;
+                    StateMachine.State = State.StandingUp;
+                }
+                else
+                {
+                    StateMachine.State = State.Ready;
                 }
             }
-            Reset();
+        }
+
+        public void AlrightStandingUp()
+        {
+            AlrightStandingUp(StandingUpSeconds);
+        }
+
+        public void AlrightStandingUp(int seconds)
+        {
+            if (seconds <= 0)
+            {
+                Reset();
+                return;
+            }
+
+            MainTimer.Stop();
+
+            StandTimer = new Timer();
+            StandTimer.Interval = seconds * 1000;
+            StandTimer.Tick += StandTimer_Tick;
+            StandTimer.Start();
         }
 
 
         public void Reset()
         {
-            Snoozing = false;
             Reset(Settings.TotalSeconds);
         }
+
         public void Reset(int seconds)
         {
-            if (!Snoozing)
-                IsInRedMode = false;
-
             StartTime = DateTime.Now;
             Length = new TimeSpan(0, 0, seconds);
             ShowTime(Length);
             MainTimer.Start();
         }
 
-        public bool Exit(bool prompt = true)
-        {
-            if (prompt && MessageBox.Show("Are you sure you want to exit stand-up application?", "Exit Stand Up?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
-                return false;
-            Settings.Save();
-            Application.Exit();
-            return true;
-        }
-
 
         private void ShowTime(TimeSpan timeSpan)
         {
-            var args = new TickEventArgs(Snoozing, timeSpan, timeSpan < RedThreshold ? ShowTimeColor.Red : ShowTimeColor.Normal);
+            var args = new TickEventArgs(timeSpan, timeSpan < RedThreshold ? ShowTimeColor.Red : ShowTimeColor.Normal);
             OnTick(args);
             if (timeSpan < RedThreshold)
             {
-                if (!IsInRedMode && Settings.AllowPrepareNotification)
+                if (StateMachine.State != State.RedMode && Settings.AllowPrepareNotification)
                 {
-                    IsInRedMode = true;
-                    OnEnteredRedMode(args);
+                    StateMachine.State = State.RedMode;
                 }
             }
         }
 
         public void ShowSettings()
         {
+            MainTimer.Stop();
+
             using (var form = new SettingsForm())
             {
-                MainTimer.Stop();
                 if (form.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 {
                     MainTimer.Start();
                 }
                 else
                 {
-                    ApplySettings(false);
+                    ApplySettings();
                     Reset();
                 }
             }

@@ -13,7 +13,7 @@ namespace StandUp.UI
     {
         #region Fields
 
-        private StandUpTimer Timer;
+        private StateMachine StateMachine;
         private NotifyIcon notifyIcon1;
         private ContextMenuStrip notifyMenuStrip;
         private ToolStripSeparator toolStripMenuItem1;
@@ -21,18 +21,35 @@ namespace StandUp.UI
         private ToolStripMenuItem settingsToolStripMenuItem;
         private ToolStripMenuItem currentTimeToolStripMenuItem;
         private ToolStripMenuItem resetToolStripMenuItem;
+        private ToolStripMenuItem standingUpToolStripMenuItem;
 
         #endregion
 
         public MainUI()
         {
             InitializeComponent();
-            Timer = new StandUpTimer(this);
-            Timer.Tick += Timer_Tick;
-            Timer.EnteredRedMode += Timer_EnteredRedMode;
-            Timer.CanSitDown += Timer_CanSitDown;
+            StateMachine = new StateMachine();
+            StateMachine.Tick += Timer_Tick;
+            StateMachine.StateChanged += StateMachine_StateChanged;
 
             HotKeys.Register(HotKeyModifiers.Alt | HotKeyModifiers.Control, Keys.S, HotKeyRecieved);
+        }
+
+        private void StateMachine_StateChanged(object sender, EventArgs e)
+        {
+            standingUpToolStripMenuItem.Visible = StateMachine.State == State.Snoozing;
+
+            switch (StateMachine.State)
+            {
+                case State.RedMode:
+                    NotifyEnteredRedMode();
+                    break;
+                case State.CanSitDown:
+                    NotifyCanSitDown();
+                    break;
+                default:
+                    break;
+            }
         }
 
         void HotKeyRecieved(object sender, KeyPressedEventArgs e)
@@ -43,21 +60,23 @@ namespace StandUp.UI
             }
         }
 
-        void Timer_CanSitDown(object sender, EventArgs e)
+        void NotifyCanSitDown()
         {
             notifyIcon1.ShowBalloonTip(10000, "You can now sit down", "Sit down now or reset the timer when you do so", ToolTipIcon.Info);
         }
 
-        void Timer_EnteredRedMode(object sender, TickEventArgs e)
+        void NotifyEnteredRedMode()
         {
-            notifyIcon1.ShowBalloonTip(2000, "Prepair to stand up", "Stand-up time is getting close. So prepare to stand up in " + TimeTranslator.Translate(e.Time), ToolTipIcon.Info);
+            notifyIcon1.ShowBalloonTip(2000, "Prepair to stand up", "Stand-up time is getting close. So prepare to stand up in " + TimeTranslator.Translate(new TimeSpan(0, 0, Business.Settings.RedSeconds)), ToolTipIcon.Info);
         }
 
         void Timer_Tick(object sender, TickEventArgs e)
         {
             var time = string.Format("{0:00}:{1:00}", e.Time.Minutes, e.Time.Seconds);
 
-            currentTimeToolStripMenuItem.Text = e.Snoozing ? (time + " (Snoozing)") : time;
+            var snoozing = StateMachine.State == State.Snoozing;
+
+            currentTimeToolStripMenuItem.Text = snoozing ? (time + " (Snoozing)") : time;
             currentTimeToolStripMenuItem.ForeColor = e.Color == ShowTimeColor.Red ? Color.Red : Color.Black;
 
             notifyIcon1.Text = "You should stand up in " + TimeTranslator.Translate(e.Time);
@@ -72,6 +91,7 @@ namespace StandUp.UI
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.standingUpToolStripMenuItem = new ToolStripMenuItem();
             // 
             // notifyIcon1
             // 
@@ -85,6 +105,7 @@ namespace StandUp.UI
             // 
             notifyMenuStrip.Items.AddRange(new ToolStripItem[] {
             currentTimeToolStripMenuItem,
+            standingUpToolStripMenuItem,
             resetToolStripMenuItem,
             settingsToolStripMenuItem,
             toolStripMenuItem1,
@@ -94,7 +115,6 @@ namespace StandUp.UI
             // currentTimeToolStripMenuItem
             // 
             currentTimeToolStripMenuItem.Text = "CurrentTime";
-            currentTimeToolStripMenuItem.Click += currentTimeToolStripMenuItem_Click;
             // 
             // settingsToolStripMenuItem
             // 
@@ -110,6 +130,12 @@ namespace StandUp.UI
             // 
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            //
+            // standingUpToolStripMenuItem
+            //
+            standingUpToolStripMenuItem.Text = "Alright, Standing up";
+            standingUpToolStripMenuItem.Visible = false;
+            standingUpToolStripMenuItem.Click += standingUpToolStripMenuItem_Click;
             // 
             // resetToolStripMenuItem
             // 
@@ -118,20 +144,23 @@ namespace StandUp.UI
             resetToolStripMenuItem.Click += resetToolStripMenuItem_Click;
         }
 
+        void standingUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StateMachine.State = State.StandingUp;
+        }
+
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Timer.Exit();
-        }
-
-        private void currentTimeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Timer.ShowStandUpNow(false);
+            if (MessageBox.Show("Are you sure you want to exit stand-up application?", "Exit Stand Up?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+                return;
+            Business.Settings.Save();
+            Application.Exit();
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Timer.ShowSettings();
+            StateMachine.State = State.ShowingSettings;
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -141,7 +170,7 @@ namespace StandUp.UI
 
         public void ManualReset()
         {
-            Timer.Reset();
+            StateMachine.State = State.Ready;
             notifyIcon1.ShowBalloonTip(2000, "Timer has been reset", "You should stand-up in " + TimeTranslator.Translate(new TimeSpan(0, 0, StandUp.Business.Settings.TotalSeconds)), ToolTipIcon.Info);
         }
 
