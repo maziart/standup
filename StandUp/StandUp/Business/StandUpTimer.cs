@@ -15,6 +15,7 @@ namespace StandUp.Business
         private Timer MainTimer;
         private Timer StandTimer;
         private int StandingUpSeconds;
+        private NowStandUp NowStandUp;
 
 
         public StateMachine StateMachine { get; private set; }
@@ -47,7 +48,7 @@ namespace StandUp.Business
         private void StandTimer_Tick(object sender, EventArgs e)
         {
             StandTimer.Stop();
-            
+
             if (StateMachine.State == State.StandingUp)
             {
                 StateMachine.State = State.CanSitDown;
@@ -81,22 +82,33 @@ namespace StandUp.Business
         {
             MainTimer.Stop();
 
-            using (var standUpNow = new NowStandUp(allowSnooze))
+            try
             {
-                standUpNow.ShowDialog();
-                if (standUpNow.Snooze)
+                NowStandUp = new NowStandUp(allowSnooze);
+                NowStandUp.ShowDialog();
+                if (NowStandUp.ClosedReset)
+                {
+                    return;
+                }
+
+                if (NowStandUp.Snooze)
                 {
                     StateMachine.State = State.Snoozing;
                 }
-                else if (standUpNow.ShowDesktop && standUpNow.ShowDesktopSeconds > 0)
+                else if (NowStandUp.ShowDesktop && NowStandUp.ShowDesktopSeconds > 0)
                 {
-                    StandingUpSeconds = standUpNow.ShowDesktopSeconds;
+                    StandingUpSeconds = NowStandUp.ShowDesktopSeconds;
                     StateMachine.State = State.StandingUp;
                 }
                 else
                 {
                     StateMachine.State = State.Ready;
                 }
+            }
+            finally
+            {
+                NowStandUp.Dispose();
+                NowStandUp = null;
             }
         }
 
@@ -129,6 +141,11 @@ namespace StandUp.Business
 
         public void Reset(int seconds)
         {
+            if (NowStandUp != null)
+            {
+                NowStandUp.CloseReset();
+            }
+
             StartTime = DateTime.Now;
             Length = new TimeSpan(0, 0, seconds);
             ShowTime(Length);
