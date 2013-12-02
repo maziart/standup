@@ -13,13 +13,14 @@ namespace StandUp.Business
             get { return state; }
             set
             {
-                if (state != value)
+                if (SetState(value))
                 {
-                    SetState(value);
                     OnStateChanged(EventArgs.Empty);
                 }
             }
         }
+
+
         private StandUpTimer Timer;
 
         public StateMachine()
@@ -30,8 +31,13 @@ namespace StandUp.Business
             Timer.Tick += Timer_Tick;
         }
 
-        private void SetState(State state)
+        private bool SetState(State state)
         {
+            if (this.state == state || (this.state == Business.State.Snoozing && state == Business.State.RedMode))
+            {
+                return false;
+            }
+
             switch (state)
             {
                 case State.Ready:
@@ -61,11 +67,13 @@ namespace StandUp.Business
                     this.state = Business.State.CanSitDown;
                     OnStateChanged(EventArgs.Empty);
                     State = state = Business.State.Ready;
-                    return;
+                    return true;
                 default:
                     throw new ArgumentOutOfRangeException("state");
             }
+
             this.state = state;
+            return true;
         }
 
         public event EventHandler StateChanged;
@@ -85,6 +93,12 @@ namespace StandUp.Business
         private void Timer_Tick(object sender, TickEventArgs e)
         {
             OnTick(e);
+        }
+
+        public void Reset()
+        {
+            this.state = Business.State.CanSitDown;
+            State = Business.State.Ready;
         }
     }
 

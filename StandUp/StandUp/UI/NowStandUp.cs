@@ -135,5 +135,14 @@ namespace StandUp.UI
                 ShowRightAway();
             }
         }
+
+        public void CloseReset()
+        {
+            ClosedReset = true;
+            FormClosing -= NowStandUp_FormClosing;
+            Close();
+        }
+
+        public static bool ClosedReset { get; set; }
     }
 }

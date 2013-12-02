@@ -47,9 +47,17 @@ namespace StandUp.UI
                 case State.CanSitDown:
                     NotifyCanSitDown();
                     break;
+                case State.StandingUp:
+                    ShowStandingUp();
+                    break;
                 default:
                     break;
             }
+        }
+
+        private void ShowStandingUp()
+        {
+            currentTimeToolStripMenuItem.Text = "Should be standing up";
         }
 
         void HotKeyRecieved(object sender, KeyPressedEventArgs e)
@@ -170,7 +178,7 @@ namespace StandUp.UI
 
         public void ManualReset()
         {
-            StateMachine.State = State.Ready;
+            StateMachine.Reset();
             notifyIcon1.ShowBalloonTip(2000, "Timer has been reset", "You should stand-up in " + TimeTranslator.Translate(new TimeSpan(0, 0, StandUp.Business.Settings.TotalSeconds)), ToolTipIcon.Info);
         }
 
