@@ -15,10 +15,17 @@ namespace StandUp.UI
         private bool AllowSnooze;
         private int TotalOpacitySteps;
         private int CurrentOpacityStep;
+        RectangleF MessageRect;
+        StringFormat MessageFormat;
+
+
 
         public NowStandUp(bool allowSnooze)
         {
             InitializeComponent();
+
+            MessageRect = new RectangleF(Screen.PrimaryScreen.Bounds.Width / 2 - 300, Screen.PrimaryScreen.Bounds.Height / 2 - 150, 600, 300);
+            MessageFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
 
             StartTime = DateTime.Now;
 
@@ -27,7 +34,6 @@ namespace StandUp.UI
             var bounds = Screen.PrimaryScreen.Bounds;
             Size = new Size(bounds.Width, bounds.Height);
             Location = new Point(0, 0);
-            lblMessage.Text = Settings.Message;
 
 
             if (Settings.MessageFadeInSeconds == 0)
@@ -72,7 +78,7 @@ namespace StandUp.UI
         private void CloseForm()
         {
             FormClosing -= NowStandUp_FormClosing;
-            Snooze = Settings.AllowSnooze && AllowSnooze && (DateTime.Now - StartTime) < new TimeSpan(0, 0, Settings.StandUpSeconds);            
+            Snooze = Settings.AllowSnooze && AllowSnooze && (DateTime.Now - StartTime) < new TimeSpan(0, 0, Settings.StandUpSeconds);
             Close();
         }
 
@@ -144,5 +150,19 @@ namespace StandUp.UI
         }
 
         public static bool ClosedReset { get; set; }
+
+        private void NowStandUp_Paint(object sender, PaintEventArgs e)
+        {
+            using (var font = new Font("Tahoma", 14F))
+            {
+                e.Graphics.DrawString(Settings.Message, font, Brushes.Lime, MessageRect, MessageFormat);
+            }
+            var hint = "To close this message, double click on the screen";
+            if (Settings.AllowEscapingMessage)
+            {
+                hint += " or press Esc";
+            }
+            e.Graphics.DrawString(hint, Font, Brushes.DimGray, 10, 10);
+        }
     }
 }

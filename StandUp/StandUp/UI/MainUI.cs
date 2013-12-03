@@ -48,16 +48,11 @@ namespace StandUp.UI
                     NotifyCanSitDown();
                     break;
                 case State.StandingUp:
-                    ShowStandingUp();
+                    currentTimeToolStripMenuItem.Text = "Should be standing up";
                     break;
                 default:
                     break;
             }
-        }
-
-        private void ShowStandingUp()
-        {
-            currentTimeToolStripMenuItem.Text = "Should be standing up";
         }
 
         void HotKeyRecieved(object sender, KeyPressedEventArgs e)
@@ -92,13 +87,13 @@ namespace StandUp.UI
 
         private void InitializeComponent()
         {
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon();
-            this.notifyMenuStrip = new System.Windows.Forms.ContextMenuStrip();
-            this.currentTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIcon1 = new NotifyIcon();
+            this.notifyMenuStrip = new ContextMenuStrip();
+            this.currentTimeToolStripMenuItem = new ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new ToolStripMenuItem();
+            this.toolStripMenuItem1 = new ToolStripSeparator();
+            this.exitToolStripMenuItem = new ToolStripMenuItem();
+            this.resetToolStripMenuItem = new ToolStripMenuItem();
             this.standingUpToolStripMenuItem = new ToolStripMenuItem();
             // 
             // notifyIcon1
@@ -108,6 +103,7 @@ namespace StandUp.UI
             notifyIcon1.Icon = Resources.Timer;
             notifyIcon1.Text = "Stand Up";
             notifyIcon1.Visible = true;
+            notifyIcon1.DoubleClick += notifyIcon1_DoubleClick;
             // 
             // notifyMenuStrip
             // 
@@ -152,6 +148,11 @@ namespace StandUp.UI
             resetToolStripMenuItem.Click += resetToolStripMenuItem_Click;
         }
 
+        void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            StateMachine.State = State.ShowingSettings;
+        }
+
         void standingUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StateMachine.State = State.StandingUp;
@@ -160,7 +161,7 @@ namespace StandUp.UI
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to exit stand-up application?", "Exit Stand Up?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to exit stand-up application?", "Exit Stand Up?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
             Business.Settings.Save();
             Application.Exit();

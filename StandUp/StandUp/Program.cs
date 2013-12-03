@@ -34,7 +34,7 @@ namespace StandUp
         private static void EnsureStartUp()
         {
             var key = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run", "StandUpApp", null);
-            if (Application.ExecutablePath.Equals(key as string))
+            if (!Application.ExecutablePath.Equals(key as string))
             {
                 Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run", "StandUpApp", Application.ExecutablePath);
             }

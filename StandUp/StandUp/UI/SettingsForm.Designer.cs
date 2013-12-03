@@ -49,6 +49,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtFadeInSeconds = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtSnoozeTime = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -70,10 +72,10 @@
             // 
             // btnSaveDuration
             // 
-            this.btnSaveDuration.Location = new System.Drawing.Point(514, 266);
+            this.btnSaveDuration.Location = new System.Drawing.Point(514, 276);
             this.btnSaveDuration.Name = "btnSaveDuration";
             this.btnSaveDuration.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveDuration.TabIndex = 10;
+            this.btnSaveDuration.TabIndex = 11;
             this.btnSaveDuration.Text = "Save";
             this.btnSaveDuration.UseVisualStyleBackColor = true;
             this.btnSaveDuration.Click += new System.EventHandler(this.btnSaveDuration_Click);
@@ -81,10 +83,10 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(595, 266);
+            this.btnCancel.Location = new System.Drawing.Point(595, 276);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 11;
+            this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -150,14 +152,15 @@
         "wn enough (as set in \"Standup duration\" box), the form will re-show in 1 minute." +
         "");
             this.chkSnooze.UseVisualStyleBackColor = true;
+            this.chkSnooze.CheckedChanged += new System.EventHandler(this.chkSnooze_CheckedChanged);
             // 
             // chkAllowPrepareNotification
             // 
             this.chkAllowPrepareNotification.AutoSize = true;
-            this.chkAllowPrepareNotification.Location = new System.Drawing.Point(176, 216);
+            this.chkAllowPrepareNotification.Location = new System.Drawing.Point(176, 242);
             this.chkAllowPrepareNotification.Name = "chkAllowPrepareNotification";
             this.chkAllowPrepareNotification.Size = new System.Drawing.Size(239, 17);
-            this.chkAllowPrepareNotification.TabIndex = 9;
+            this.chkAllowPrepareNotification.TabIndex = 10;
             this.chkAllowPrepareNotification.Text = "Allow showing notification when getting close";
             this.toolTip1.SetToolTip(this.chkAllowPrepareNotification, "Shows a notification for you to prepare for standing up when entered in the \"Red " +
         "Color\" time to stand up.");
@@ -244,13 +247,29 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "(0 = No Fade In)";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(10, 219);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(121, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Snooze Time (seconds):";
+            // 
+            // txtSnoozeTime
+            // 
+            this.txtSnoozeTime.Location = new System.Drawing.Point(176, 216);
+            this.txtSnoozeTime.Name = "txtSnoozeTime";
+            this.txtSnoozeTime.Size = new System.Drawing.Size(100, 20);
+            this.txtSnoozeTime.TabIndex = 9;
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.btnSaveDuration;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(682, 301);
+            this.ClientSize = new System.Drawing.Size(682, 308);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.chkAllowPrepareNotification);
             this.Controls.Add(this.chkSnooze);
@@ -261,6 +280,8 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtSnoozeTime);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.txtRedColor);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtStandUpSeconds);
@@ -303,5 +324,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtFadeInSeconds;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtSnoozeTime;
     }
 }

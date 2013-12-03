@@ -24,6 +24,7 @@ namespace StandUp.UI
             txtStandUpSeconds.Text = Settings.StandUpSeconds.ToString();
             txtFilePath.Text = Settings.FilePath;
             txtFadeInSeconds.Text = Settings.MessageFadeInSeconds.ToString();
+            txtSnoozeTime.Text = Settings.SnoozeSeconds.ToString();
         }
 
         private void CloseOK()
@@ -40,11 +41,12 @@ namespace StandUp.UI
 
         private void btnSaveDuration_Click(object sender, EventArgs e)
         {
-            int seconds, redSeconds, standUpSeconds, fadeInSeconds;
+            int seconds, redSeconds, standUpSeconds, fadeInSeconds, snoozeSeconds;
             if (!int.TryParse(txtDuration.Text, out seconds) 
                 || !int.TryParse(txtRedColor.Text, out redSeconds)
                 || !int.TryParse(txtFadeInSeconds.Text, out fadeInSeconds)
-                || !int.TryParse(txtStandUpSeconds.Text, out standUpSeconds))
+                || !int.TryParse(txtStandUpSeconds.Text, out standUpSeconds)
+                || !int.TryParse(txtSnoozeTime.Text, out snoozeSeconds))
             {
                 MessageBox.Show("Enter number of seconds");
                 return;
@@ -64,6 +66,7 @@ namespace StandUp.UI
             Settings.StandUpSeconds = standUpSeconds;
             Settings.FilePath = txtFilePath.Text;
             Settings.MessageFadeInSeconds = fadeInSeconds;
+            Settings.SnoozeSeconds = snoozeSeconds;
 
             Settings.Save();
 
@@ -105,6 +108,11 @@ namespace StandUp.UI
                 if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     txtFilePath.Text = openFile.FileName;
             }
+        }
+
+        private void chkSnooze_CheckedChanged(object sender, EventArgs e)
+        {
+            txtSnoozeTime.Enabled = chkSnooze.Checked;
         }
     }
 }

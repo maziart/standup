@@ -136,15 +136,16 @@ namespace StandUp.Business
 
         public void Reset()
         {
+            if (NowStandUp != null)
+            {
+                NowStandUp.CloseReset();
+            }
+
             Reset(Settings.TotalSeconds);
         }
 
         public void Reset(int seconds)
         {
-            if (NowStandUp != null)
-            {
-                NowStandUp.CloseReset();
-            }
 
             StartTime = DateTime.Now;
             Length = new TimeSpan(0, 0, seconds);
