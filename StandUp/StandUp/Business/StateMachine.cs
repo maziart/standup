@@ -6,11 +6,11 @@ namespace StandUp.Business
 {
     class StateMachine
     {
-        private State state;
+        private State _State;
 
         public State State
         {
-            get { return state; }
+            get { return _State; }
             set
             {
                 if (SetState(value))
@@ -25,7 +25,7 @@ namespace StandUp.Business
 
         public StateMachine()
         {
-            state = State.Ready;
+            _State = State.Ready;
 
             Timer = new StandUpTimer(this);
             Timer.Tick += Timer_Tick;
@@ -33,7 +33,7 @@ namespace StandUp.Business
 
         private bool SetState(State state)
         {
-            if (this.state == state || (this.state == Business.State.Snoozing && state == Business.State.RedMode))
+            if ((_State == Business.State.Snoozing && state == Business.State.RedMode))
             {
                 return false;
             }
@@ -46,10 +46,10 @@ namespace StandUp.Business
                 case State.RedMode:
                     break;
                 case State.Snoozing:
-                    Timer.Reset(60);
+                    Timer.Reset(Settings.SnoozeSeconds);
                     break;
                 case State.StandingUp:
-                    if (this.state == Business.State.Snoozing)
+                    if (this._State == Business.State.Snoozing)
                     {
                         Timer.AlrightStandingUp(Settings.StandUpSeconds);
                     }
@@ -64,15 +64,16 @@ namespace StandUp.Business
                     Timer.ShowSettings();
                     break;
                 case State.CanSitDown:
-                    this.state = Business.State.CanSitDown;
+                    _State = Business.State.CanSitDown;
                     OnStateChanged(EventArgs.Empty);
-                    State = state = Business.State.Ready;
-                    return true;
+                    state = Business.State.Ready;
+                    Timer.Reset();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("state");
             }
 
-            this.state = state;
+            _State = state;
             return true;
         }
 
@@ -97,7 +98,7 @@ namespace StandUp.Business
 
         public void Reset()
         {
-            this.state = Business.State.CanSitDown;
+            this._State = Business.State.CanSitDown;
             State = Business.State.Ready;
         }
     }

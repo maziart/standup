@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblMessage = new System.Windows.Forms.Label();
             this.btnHideForm = new System.Windows.Forms.Button();
             this.lblTime = new System.Windows.Forms.Label();
             this.standTimer = new System.Windows.Forms.Timer(this.components);
@@ -39,43 +37,9 @@
             this.pnlFooter = new System.Windows.Forms.Panel();
             this.pnlButtons = new System.Windows.Forms.Panel();
             this.fadeInTimer = new System.Windows.Forms.Timer(this.components);
-            this.tableLayoutPanel1.SuspendLayout();
             this.pnlFooter.SuspendLayout();
             this.pnlButtons.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Black;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 500F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lblMessage, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(762, 418);
-            this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
-            // 
-            // lblMessage
-            // 
-            this.lblMessage.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
-            this.lblMessage.ForeColor = System.Drawing.Color.Lime;
-            this.lblMessage.Location = new System.Drawing.Point(134, 159);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(494, 100);
-            this.lblMessage.TabIndex = 0;
-            this.lblMessage.Text = "Stand Up Now ...";
-            this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblMessage.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
             // 
             // btnHideForm
             // 
@@ -135,6 +99,7 @@
             this.pnlFooter.Name = "pnlFooter";
             this.pnlFooter.Size = new System.Drawing.Size(764, 41);
             this.pnlFooter.TabIndex = 3;
+            this.pnlFooter.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
             this.pnlFooter.MouseEnter += new System.EventHandler(this.pnlFooter_MouseEnter);
             // 
             // pnlButtons
@@ -159,8 +124,8 @@
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(764, 459);
             this.Controls.Add(this.pnlFooter);
-            this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = global::StandUp.Properties.Resources.Timer;
             this.MinimizeBox = false;
@@ -168,8 +133,9 @@
             this.Text = "NowStandUp";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NowStandUp_FormClosing);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.NowStandUp_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
             this.pnlFooter.ResumeLayout(false);
             this.pnlButtons.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -178,8 +144,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Button btnHideForm;
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Timer standTimer;

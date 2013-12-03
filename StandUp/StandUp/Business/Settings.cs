@@ -18,6 +18,7 @@ namespace StandUp.Business
         public static bool AllowSnooze { get; set; }
         public static bool AllowPrepareNotification { get; set; }
         public static int MessageFadeInSeconds { get; set; }
+        public static int SnoozeSeconds { get; set; }
 
         public static string FilePath { get; set; }
 
@@ -46,11 +47,15 @@ namespace StandUp.Business
                 writer.WriteLine(AllowPrepareNotification);
                 writer.Write("MessageFadeInSeconds=");
                 writer.WriteLine(MessageFadeInSeconds);
+                writer.Write("SnoozeSeconds=");
+                writer.WriteLine(SnoozeSeconds);
             }
         }
 
         static Settings()
         {
+            SnoozeSeconds = 60;
+
             if (!TryGetFilePathFromRegistry())
             {
                 var appDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -100,6 +105,7 @@ namespace StandUp.Business
             AllowSnooze = dic.TryGetValue("AllowSnooze", out value) ? !value.Equals("false", StringComparison.InvariantCultureIgnoreCase) : true;
             AllowPrepareNotification = dic.TryGetValue("AllowPrepareNotification", out value) ? !value.Equals("false", StringComparison.InvariantCultureIgnoreCase) : true;
             MessageFadeInSeconds = dic.TryGetValue("MessageFadeInSeconds", out value) ? int.Parse(value) : 3;
+            SnoozeSeconds = dic.TryGetValue("SnoozeSeconds", out value) ? int.Parse(value) : 60;
 
         }
 
@@ -116,6 +122,7 @@ namespace StandUp.Business
         {
             return pair.Value;
         }
+
 
 
 
